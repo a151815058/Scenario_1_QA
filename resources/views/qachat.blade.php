@@ -55,12 +55,22 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">選擇科室資料庫</h2>
             <div class="space-y-3">
                 <div class="department-option">
-                    <input type="radio" id="service" name="department" value="service" class="hidden peer" checked>
+                    <input type="radio" id="all" name="department" value="all" class="hidden peer" checked>
+                    <label for="all" class="flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 peer-checked:bg-blue-100 peer-checked:border-blue-300 transition-all">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                        <div>
+                            <div class="font-medium text-gray-800">全部</div>
+                            <div class="text-sm text-gray-500">模擬題相關資料</div>
+                        </div>
+                    </label>
+                </div>
+                <div class="department-option">
+                    <input type="radio" id="service" name="department" value="service" class="hidden peer">
                     <label for="service" class="flex items-center p-3 bg-gray-50 border border-gray-200 rounded-lg cursor-pointer hover:bg-blue-50 peer-checked:bg-blue-100 peer-checked:border-blue-300 transition-all">
                         <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         <div>
                             <div class="font-medium text-gray-800">服務科</div>
-                            <div class="text-sm text-gray-500">客戶服務相關資料</div>
+                            <div class="text-sm text-gray-500">模擬題相關資料</div>
                         </div>
                     </label>
                 </div>
@@ -71,7 +81,7 @@
                         <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         <div>
                             <div class="font-medium text-gray-800">工程科</div>
-                            <div class="text-sm text-gray-500">工程技術相關資料</div>
+                            <div class="text-sm text-gray-500">模擬題相關資料</div>
                         </div>
                     </label>
                 </div>
@@ -82,7 +92,7 @@
                         <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         <div>
                             <div class="font-medium text-gray-800">企劃科</div>
-                            <div class="text-sm text-gray-500">企劃規劃相關資料</div>
+                            <div class="text-sm text-gray-500">模擬題相關資料</div>
                         </div>
                     </label>
                 </div>
@@ -93,7 +103,7 @@
                         <div class="w-3 h-3 bg-blue-500 rounded-full mr-3 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                         <div>
                             <div class="font-medium text-gray-800">公寓科</div>
-                            <div class="text-sm text-gray-500">公寓管理相關資料</div>
+                            <div class="text-sm text-gray-500">模擬題相關資料</div>
                         </div>
                     </label>
                 </div>
@@ -104,7 +114,7 @@
                     <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span class="text-sm text-blue-700">當前選擇: <span id="currentDepartment" class="font-medium">服務科</span></span>
+                    <span class="text-sm text-blue-700">當前選擇: <span id="currentDepartment" class="font-medium">全部科室</span></span>
                 </div>
             </div>
         </div>
@@ -189,7 +199,7 @@
                                 : (isset($message['isError']) && $message['isError']
                                     ? 'bg-red-100 text-red-800 border border-red-200'
                                     : 'bg-white text-gray-800 shadow-sm border border-gray-200') }}">
-                            <p class="whitespace-pre-wrap break-words">{{ $message['content'] }}</p>
+                            <p class="prose prose-sm max-w-none">{!! $message['content'] !!}</p>
                         </div>
                         <p class="text-xs text-gray-500 mt-1 px-1">
                             {{ date('H:i', strtotime($message['timestamp'])) }}
