@@ -461,7 +461,7 @@
                 formData.append('action', 'clear_chat');
 
                 try {
-                    const response = await fetch('C:/Users/wendyyao/Scenario_1_QA/config/qaprocess.php', {
+                    const response = await fetch('/config/qaprocess.php', {
                         method: 'POST',
                         body: formData
                     });
