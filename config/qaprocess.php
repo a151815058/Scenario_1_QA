@@ -119,11 +119,47 @@ function sendToN8N($question, $department, $n8nUrl) {
     if ($finalText && is_string($finalText)) {
         $converter = new CommonMarkConverter();
         $finalText =(string) $converter->convertToHtml($finalText);
+        $outputText = flattenHtmlContent($finalText);
         return [
-            'content' => $finalText ?? '抱歉，n8n 未提供明確的回應。',
+            'content' => $outputText ?? '抱歉，n8n 未提供明確的回應。',
             'isError' => false
         ];
     }
+}
+
+function flattenHtmlContent($html) {
+    // 移除 script 和 style 等不必要標籤
+    $html = preg_replace('#<(script|style)\b[^>]*>(.*?)</\1>#is', '', $html);
+
+    // 替換常見區塊標籤為換行
+    $replacements = [
+        '<hr />' => "\n------------------------------\n",
+        '<hr>'   => "\n------------------------------\n",
+        '</p>'   => "</p>\n",
+        '</div>' => "</div>\n",
+        '</h3>'  => "</h3>\n",
+        '</h2>'  => "</h2>\n",
+        '</li>'  => "\n - ",    // 每個 li 開頭加項目符號
+        '<li>'   => "",         // 清除開頭
+        '<ul>'   => "\n",
+        '</ul>'  => "\n",
+    ];
+
+    // 套用替換
+    $html = str_replace(array_keys($replacements), array_values($replacements), $html);
+
+    // 移除所有其他 HTML 標籤，但保留 <a>
+    $html = preg_replace_callback('#<a href="(.*?)">(.*?)</a>#i', function ($match) {
+        return $match[2] . '（' . $match[1] . '）';
+    }, $html);
+
+    // 移除剩餘標籤
+    $html = strip_tags($html);
+
+    // 清除多餘空行
+    $html = preg_replace("/\n{2,}/", "\n\n", $html);
+
+    return trim($html);
 }
 
 
